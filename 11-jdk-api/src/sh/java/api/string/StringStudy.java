@@ -21,7 +21,7 @@ public class StringStudy {
 	public static void main(String[] args) {
 		StringStudy study = new StringStudy();
 		// study.test1();
-		// study.test2();
+		//₩ study.test2();
 		// study.test3();
 		study.test4();
 
