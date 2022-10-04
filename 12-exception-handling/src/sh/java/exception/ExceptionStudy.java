@@ -66,7 +66,7 @@ public class ExceptionStudy {
 
     /**
      * Exception catch절
-     * - 발생한 예외별로 처리가 다ㅡㄹ지 않다면, 최상위 예외 catch절을 사용한다.
+     * - 발생한 예외별로 처리가 다르지 않다면, 최상위 예외 catch절을 사용한다.
      */
 
     private void test5() {
