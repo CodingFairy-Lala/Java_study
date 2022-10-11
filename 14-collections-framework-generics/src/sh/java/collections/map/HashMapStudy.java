@@ -25,6 +25,7 @@ public class HashMapStudy {
      */
 
     private void test2() {
+
         Map<Integer, String> map = new HashMap<>();
         map.put(123, "홍길동");
         map.put(456, "신사임당");
