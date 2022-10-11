@@ -301,7 +301,7 @@ public class ArrayListStudy {
         }
 
         System.out.println(list2.get(0) + list2.get(1)); // auto-unboxing // Integer + Integer -> Integer#intValue +
-                                                         // Integer#intValue -> int + int
+        // Integer#intValue -> int + int
 
     }
 
