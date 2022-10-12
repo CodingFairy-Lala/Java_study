@@ -8,95 +8,138 @@ import java.util.Scanner;
 import com.sh.collection.list.music.model.vo.Music;
 
 public class MusicManager {
+	private List<Music> musicList = new ArrayList<>();
+	{
+		musicList.add(new Music("한숨", "이하이"));
+		musicList.add(new Music("너였다면", "정승환"));
+		musicList.add(new Music("Bounce", "조용필"));
+		musicList.add(new Music("열정", "코요테"));
+		musicList.add(new Music("Hello", "World"));
+		musicList.add(new Music("Party", "sik-k"));
+	}
 
-    private ArrayList<Music> musicList = new ArrayList<>();
-    Scanner sc = new Scanner(System.in);
+	/**
+	 * 1. 목록보기
+	 * 필요에 따라 printList메소드를 오버라이딩해서 쓸 수 있다.
+	 */
+	public List<Music> selectList() {
+		return musicList;
+	}
 
-    public MusicManager() {
-        musicList.add(new Music("좋은밤 좋은꿈", "너드커넥션"));
-        musicList.add(new Music("밤편지", "아이유"));
-        musicList.add(new Music("버터", "BTS"));
-        musicList.add(new Music("고작", "오지은"));
-        musicList.add(new Music("별빛이 내린다", "안녕바다"));
-    }
+	/**
+	 * 2. 마지막에 음악추가 : 사용자로부터 곡명과 가수를 입력받아 리스트에 저장하는 메소드.
+	 */
+	public void addList(Music m) {
+		// 생성된 Music객체를 리스트에 추가
+		musicList.add(m);
+	}
 
-    // 1. 음악 리스트 리턴
-    public List<Music> selectList() {
-        System.out.println(musicList);
-        return musicList;
-    }
+	/**
+	 * 3. 맨처음에 음악추가 : 리스트 최상위(0번지)에 음악을 추가하는 메소드
+	 */
+	public void addAtZero(Music m) {
+		// 0번지 music객체 추가
+		musicList.add(0, m);
+	}
 
-    // 2. 마지막에 음악추가 : 사용자로부터 곡명과 가수를 입력받아 리스트에 저장하는 메소드.
-    public void addList(Music music) {
-        musicList.add(music);
-    }
+	/**
+	 * 4. 특정곡을 삭제하는 메소드 : 제목으로 검색후 최초로 검색된 음악을 삭제
+	 */
+	public boolean removeMusic(String title) {
+		// 1.리스트를 열람후 곡을 찾음
+		for (int i = 0; i < musicList.size(); i++) {
+			// 3.해당곡이 있을 경우 삭제
+			if (title.equals(musicList.get(i).getTitle())) {
+				musicList.remove(i);
+				// mList.remove(mList.get(i));
+				return true;
+			}
+		}
 
-    // 3. 3. 맨처음에 음악추가 : 리스트 최상위(0번지)에 음악을 추가하는 메소드
-    public void addAtZero(Music music) {
-        musicList.add(0, music);
-    }
+		// 4.해당곡이 없을 경우에는 찾는 곡이 없는 경우
+		return false;
 
-    // 4. 특정곡을 삭제하는 메소드(제목을 전달받아 검색후, 최초로 검색된 음악을 삭제) - 삭제여부를 리턴
-    public boolean removeMusic(String musicName) {
-        for (int i = 0; i < musicList.size(); i++) {
-            Music music = musicList.get(i);
-            if (music.getTitle().equals(musicName)) {
-                musicList.remove(music);
-                return true;
-            } else {
-                System.out.println("삭제 실패! : 존재하지 않는 곡입니다.");
-            }
-        }
-        return false;
-    }
+	}
 
-    // 5. 특정곡을 바꾸는 메소드(이전 음악객체, 새 음악객체를 전달해서 교체) - 교체 성공여부를 리턴
-    public boolean replaceMusic(Music oldMusic, Music newMusic) {
+	/**
+	 * 5. 특정곡을 바꾸는 메소드
+	 */
+	public boolean replaceMusic(Music oldMusic, Music newMusic) {
 
-        if (musicList.indexOf(oldMusic) == -1) {
-            System.out.println("교체 실패! : 존재하지 않는 곡입니다.");
-            return false;
-        } else {
-            musicList.set(musicList.indexOf(oldMusic), newMusic);
-            return true;
-        }
-    }
+		// //1.리스트를 열람후 곡을 찾음
+		// for(int i=0; i<musicList.size(); i++) {
+		// //3.해당곡이 있을 경우 새로운 music객체(사용자 입력)
+		// if(oldMusic.equals(musicList.get(i))) {
+		// //대체
+		// musicList.set(i, newMusic);
+		// return true;
+		// }
+		// }
 
-    // 6. 특정곡이 있는지 검사하는 메소드 : 복수개의 결과가 나올수 있음. (곡명일부로 검색해서 해당곡이 있다면, 곡정보(제목/가수)를
-    // 출력하고, 없다면, "검색결과가 없습니다"출력)
-    public List<Music> searchMusicByTitle(String title) {
-        for (int i = 0; i < musicList.size(); i++) {
-            Music music = musicList.get(i);
-            if (music.getTitle().contains(title)) {
-                System.out.println(music);
-            } else {
-                System.out.println("검색 실패! : 검색 결과가 없습니다.");
-                break;
-            }
-        }
-        return musicList;
-    }
+		int index = musicList.indexOf(oldMusic);
+		if (index != -1) {
+			musicList.set(index, newMusic);
+			return true;
+		}
 
-    // 7. 가수명으로 검색 메소드 : 복수개의 결과가 나올수 있음.
-    public List<Music> searchMusicBySinger(String singer) {
-        System.out.print("검색할 가수 이름 입력 > ");
-        String searchSinger = sc.next();
+		// 4.해당곡이 없을 경우;
+		return false;
+	}
 
-        for (Music str : musicList) {
-            if (str.equals(searchSinger) == true) {
-                System.out.println(musicList.get(musicList.indexOf(searchSinger)));
-            } else {
-                System.out.println("교체 실패 : 존재하지 않는 가수입니다.");
-            }
-        }
-        return musicList;
-    }
+	/**
+	 * 6. 특정곡이 있는지 검사하는 메소드
+	 * (곡명일부로 검색해서 해당곡이 있다면, 곡정보(제목/가수)를 출력하고, 없다면, "검색결과가 없습니다"출력)
+	 */
+	public List<Music> searchMusicByTitle(String title) {
 
-    // 8. 서브메뉴 - 각 정렬 메소드 : Comparable/Comparator 인터페이스를 적절히 활용할 것
-    public List<Music> orderBy(Comparator<Music> c) {
+		// 1.리스트 순회 : 곡이 있다면, 곡정보 출력
+		// 없다면, 곡이 없다고 피드백주기
+		List<Music> searchList = new ArrayList<>();
+		for (int i = 0; i < musicList.size(); i++) {
+			// 2.해당곡이 있을 경우 출력
+			if (musicList.get(i).getTitle().contains(title))
+				searchList.add(musicList.get(i));
+		}
 
-        return musicList;
+		return searchList;
+	}
 
-    }
+	/**
+	 * 7. 가수명으로 검색 메소드 : 복수개의 결과가 나올수 있음.
+	 */
+	public List<Music> searchMusicBySinger(String singer) {
+		// 검색된 결과를 담을 리스트
+		List<Music> searchList = new ArrayList<>();
+
+		// 1.리스트 순회
+		for (int i = 0; i < musicList.size(); i++) {
+			// 2.해당가수의 곡이 있을경우 출력
+			if (musicList.get(i).getSinger().contains(singer)) {
+				searchList.add(musicList.get(i));
+			}
+		}
+
+		return searchList;
+	}
+
+	/**
+	 * 8. 졍렬메소드
+	 * 
+	 * @java.uril.Comparable을 구현한 Music 클래스 (comparedTo메소드 오버라이드)
+	 * @java.util.Comparator를 구현한 클래스 작성(compare메소드오버라이드)
+	 */
+	public List<Music> orderBy(Comparator<Music> comp) {
+		// 실제 원본 리스트를 변경하지 않으려면, clone후 진행한다.
+		// ArrayList타입에 clone오버라이딩 되어있으므로, List -> ArrayList 형변환 필수.
+		// 실제 ArrayList에 대해 깊은 복사가 이루어 지지만, 참조하는 요소 Music객체는 동일하다.(복사생성자를 통해 다시 깊은 복사
+		// 가능)
+		List<Music> musicList = (List<Music>) ((ArrayList<Music>) this.musicList).clone();
+
+		// 아래 두 코드는 동일하다.
+		// Collections.sort(musicList, comp);
+		musicList.sort(comp);
+
+		return musicList;
+	}
 
 }
