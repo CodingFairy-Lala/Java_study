@@ -141,14 +141,14 @@ public abstract class Bear {
         this.birthday = birthday;
     }
 
-    public void printInfo() { // 현재 상태를 수치로표현.
+    public void printInfo() {
         System.out.println("============================");
         System.out.println("곰돌이 이름 : " + getBearName());
         // System.out.println("집사 이름 : " + );
         System.out.println("성별 : " + getGender());
         System.out.println("생일 : " + getBirthday());
         System.out.print("행복 : ");
-        for (int i = 1; i <= 10; i++) { // 반복문을 '10' 번 수행.(특수문자 10개)
+        for (int i = 1; i <= 10; i++) {
             if (this.happiness / 10 >= i) {
                 System.out.print(x);
             } else
@@ -187,9 +187,9 @@ public abstract class Bear {
         boolean flag = true;
         String foodMenu = "============================\n" +
                 "음식을 선택해주세요 :\n" +
-                "1. 🍗 : 포만감 +40, 행복도 +10 / 1000 포인트\n" +
-                "2. 🥕 : 포만감 +20, 건강 +30 / 500 포인트\n" +
-                "3. 🍭 : 포만감 +15, 건강 -20 / 300 포인트\n" +
+                "1. 🍗 : 포만감 +40, 행복도 +10 / 1500 포인트\n" +
+                "2. 🥕 : 포만감 +20, 건강 +20 / 800 포인트\n" +
+                "3. 🍭 : 포만감 +15, 건강 -20 / 500 포인트\n" +
                 "선택 : ";
         int totalPoint = 10000; // 임시 부여함 나중에 수정하기
 
@@ -205,16 +205,16 @@ public abstract class Bear {
             switch (choice) {
                 case "1":
                     System.out.println(
-                            "============================\n" + " 🍗 을 선택하셨습니다.\n" + "가격은 [" + 1000 + "] 포인트 입니다.");
-                    if (totalPoint < 1000) {
+                            "============================\n" + " 🍗 을 선택하셨습니다.\n" + "가격은 [" + 1500 + "] 포인트 입니다.");
+                    if (totalPoint < 1500) {
                         System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
                         break;
                     }
-                    if (totalPoint >= 1000) {
-                        totalPoint -= 1000;
+                    if (totalPoint >= 1500) {
+                        totalPoint -= 1500;
                         System.out.println("============================");
                         System.out.print(getFace() + getBody());
-                        System.out.println(" 🍗 냠냠! \n============================\n포만감 +50, 행복도 +10 \n" + "잔여 포인트 : "
+                        System.out.println(" 🍗 냠냠! \n============================\n포만감 +40, 행복도 +10 \n" + "잔여 포인트 : "
                                 + totalPoint);
                         satiety += 40;
                         happiness += 10;
@@ -222,7 +222,26 @@ public abstract class Bear {
                     }
                     break;
                 case "2":
-                    System.out.println("============================\n" + " 🥕 을 선택하셨습니다.\n" + "가격은 [" + 500
+                    System.out.println("============================\n" + " 🥕 을 선택하셨습니다.\n" + "가격은 [" + 800
+                            + "] 포인트 입니다.\n" + "============================\n");
+                    if (totalPoint < 800) {
+                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
+                        break;
+                    }
+                    if (totalPoint >= 800) {
+                        totalPoint -= 800;
+                        System.out.println("============================");
+                        System.out.print(getFace() + getBody());
+                        System.out.println(
+                                " 🥕 냠냠! \n============================\n포만감 +20, 건강 +20 \n" + "잔여 포인트 : "
+                                        + totalPoint);
+                        satiety += 20;
+                        health += 20;
+                        break;
+                    }
+                    break;
+                case "3":
+                    System.out.println("============================\n" + " 🍭 을 선택하셨습니다.\n" + "가격은 [" + 500
                             + "] 포인트 입니다.\n" + "============================\n");
                     if (totalPoint < 500) {
                         System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
@@ -230,25 +249,6 @@ public abstract class Bear {
                     }
                     if (totalPoint >= 500) {
                         totalPoint -= 500;
-                        System.out.println("============================");
-                        System.out.print(getFace() + getBody());
-                        System.out.println(
-                                " 🥕 냠냠! \n============================\n포만감 +20, 건강 +30 \n" + "잔여 포인트 : "
-                                        + totalPoint);
-                        satiety += 20;
-                        health += 30;
-                        break;
-                    }
-                    break;
-                case "3":
-                    System.out.println("============================\n" + " 🍭 을 선택하셨습니다.\n" + "가격은 [" + 300
-                            + "] 포인트 입니다.\n" + "============================\n");
-                    if (totalPoint < 300) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                    if (totalPoint >= 300) {
-                        totalPoint -= 300;
                         System.out.println("============================");
                         System.out.print(getFace() + getBody());
                         System.out.println(
@@ -292,8 +292,8 @@ public abstract class Bear {
                     System.out.println("============================");
                     System.out.println(getExercisingFace() + getExercisingBody() + "  하나 둘! 셋 넷!");
                     System.out.println("============================");
-                    System.out.println("건강 +40, 포만감 -30, 청결 -20");
-                    health += 40;
+                    System.out.println("건강 +30, 포만감 -30, 청결 -20");
+                    health += 30;
                     satiety -= 30;
                     cleanliness -= 20;
                     break;
