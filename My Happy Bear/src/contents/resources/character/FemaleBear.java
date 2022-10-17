@@ -1,52 +1,69 @@
 package contents.resources.character;
 
-public class FemaleBear implements Bear {
+import java.util.Scanner;
 
-    @Override
-    public void eat() {
+public class FemaleBear extends Bear {
+    Scanner sc = new Scanner(System.in);
+    public char gender = 'F';
+    public String face = "  🎀  \n" + " ʕ•ᴥ•ʔ \n";
+    public String exercisingFace = "  🎀  \n" + " ʕ›ᴥ‹ʔ \n";
+    public String sleepingFace = "  🎀  \n" + " ʕᵕᴥᵕʔ zZ \n";
+    public String body = "/|   |\\\n" + " O———O";
 
+    public FemaleBear() {
+        super();
     }
 
-    @Override
-    public void exercise() {
-        // TODO Auto-generated method stub
-
+    public char getGender() {
+        return this.gender;
     }
 
-    @Override
-    public void shower() {
-        // TODO Auto-generated method stub
-
+    public void setGender(char gender) {
+        this.gender = gender;
     }
 
-    @Override
-    public void sleep() {
-        // TODO Auto-generated method stub
-
+    public String getFace() {
+        if (getHappiness() <= 20) {
+            this.face = "  🎀  \n" + " ʕ◞ᴥ◟ʔ \n";
+        }
+        if (getHappiness() >= 80) {
+            this.face = "  🎀  \n" + " ʕ›·̫‹ʔ 💕 \n";
+        }
+        if (getSatiety() <= 10) {
+            this.face = "  🎀  \n" + " ʕ-ᴥ-ʔ  꼬르륵..\n";
+        }
+        if (getHealth() <= 0) {
+            this.face = "  🎀  \n" + " ʕ×ᴥ×ʔ \n";
+        }
+        return this.face;
     }
 
-    @Override
-    public void clean() {
-        // TODO Auto-generated method stub
-
+    public void setFace(String face) {
+        this.face = face;
     }
 
-    @Override
-    public void cure() {
-        // TODO Auto-generated method stub
-
+    public String getExercisingFace() {
+        return this.exercisingFace;
     }
 
-    @Override
-    public void printInfo() {
-        // TODO Auto-generated method stub
-
+    public void setExercisingFace(String exercisingFace) {
+        this.exercisingFace = exercisingFace;
     }
 
-    @Override
-    public boolean endGame() {
-        // TODO Auto-generated method stub
-        return false;
+    public String getSleepingFace() {
+        return this.sleepingFace;
+    }
+
+    public void setSleepingFace(String sleepingFace) {
+        this.sleepingFace = sleepingFace;
+    }
+
+    public String getBody() {
+        return this.body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
 }

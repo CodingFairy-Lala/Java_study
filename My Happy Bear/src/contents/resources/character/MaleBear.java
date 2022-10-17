@@ -2,110 +2,68 @@ package contents.resources.character;
 
 import java.util.Scanner;
 
-public class MaleBear implements Bear {
+public class MaleBear extends Bear {
     Scanner sc = new Scanner(System.in);
+    public char gender = 'M';
+    public String face = "  🎩  \n" + " ʕ•ᴥ•ʔ \n";
+    public String exercisingFace = "  🎩  \n" + " ʕ›ᴥ‹ʔ \n";
+    public String sleepingFace = "  🎩  \n" + " ʕᵕᴥᵕʔ zZ \n";
+    public String body = "/|   |\\\n" + " O———O";
 
-    @Override
-    public void eat() {
-        String foodMenu = "음식을 선택해주세요 :\n" +
-                "1. 🍗 : 포만감 +50, 행복도 +10 / 1000 포인트\n" +
-                "2. 🥕 : 포만감 +20, 건강 +30 / 500 포인트\n" +
-                "3. 🍭 : 포만감 +15, 건강 -20 / 300 포인트\n" +
-                "선택 : ";
-        int totalPoint = 10000; // 임시 부여함 나중에 수정하기
+    public MaleBear() {
+        super();
+    }
 
-        for (;;) {
-            System.out.print(foodMenu);
-            String choice = sc.next();
+    public char getGender() {
+        return this.gender;
+    }
 
-            switch (choice) {
-                case "1":
-                    System.out.println(" 🍗 을 선택하셨습니다.\n" + "가격은 [" + 1000 + "] 포인트 입니다.");
-                    if (totalPoint < 1000) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                    if (totalPoint >= 1000) {
-                        totalPoint -= 1000;
-                        System.out.println("🍗 냠냠! \n+20, 건강 +30 \n" + "잔여 포인트 : " + totalPoint);
-                    }
-                    break;
-                case "2":
-                    System.out.println(" 🥕 을 선택하셨습니다.\n" + "가격은 [" + 500 + "] 포인트 입니다.");
-                    System.out.println(" 🥕 을 선택하셨습니다.\n" + "가격은 [" + 500 + "] 포인트 입니다.");
-                    if (totalPoint < 500) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                    if (totalPoint >= 500) {
-                        totalPoint -= 500;
-                        System.out.println("🥕 냠냠! \n포만감 +50, 행복도 +10 \n" + "잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                case "3":
-                    System.out.println(" 🍭 을 선택하셨습니다.\n" + "가격은 [" + 300 + "] 포인트 입니다.");
-                    System.out.println(" 🍭 을 선택하셨습니다.\n" + "가격은 [" + 300 + "] 포인트 입니다.");
-                    if (totalPoint < 300) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                    if (totalPoint >= 300) {
-                        totalPoint -= 300;
-                        System.out.println("🍭 냠냠! \n포만감 +15, 건강 -20 \n" + "잔여 포인트 : " + totalPoint);
-                        break;
-                    }
-                default:
-                    System.out.println("잘못 입력하셨습니다.");
-            }
-            System.out.print("식사를 계속 하시겠습니까?(y/n) : ");
-            char yn = sc.next().charAt(0);
-            if (yn == 'n') {
-                break;
-            }
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public String getFace() {
+        if (getHappiness() <= 20) {
+            this.face = "  🎩  \n" + " ʕ◞ᴥ◟ʔ \n";
         }
-        System.out.println("식사를 종료합니다...");
+        if (getHappiness() >= 80) {
+            this.face = "  🎩  \n" + " ʕ›·̫‹ʔ 💕 \n";
+        }
+        if (getSatiety() <= 10) {
+            this.face = "  🎩  \n" + " ʕ-ᴥ-ʔ  꼬르륵..\n";
+        }
+        if (getHealth() <= 0) {
+            this.face = "  🎩  \n" + " ʕ×ᴥ×ʔ \n";
+        }
+        return this.face;
     }
 
-    @Override
-    public void exercise() {
-        // TODO Auto-generated method stub
-
+    public void setFace(String face) {
+        this.face = face;
     }
 
-    @Override
-    public void shower() {
-        // TODO Auto-generated method stub
-
+    public String getExercisingFace() {
+        return this.exercisingFace;
     }
 
-    @Override
-    public void sleep() {
-        // TODO Auto-generated method stub
-
+    public void setExercisingFace(String exercisingFace) {
+        this.exercisingFace = exercisingFace;
     }
 
-    @Override
-    public void clean() {
-        // TODO Auto-generated method stub
-
+    public String getSleepingFace() {
+        return this.sleepingFace;
     }
 
-    @Override
-    public void cure() {
-        // TODO Auto-generated method stub
-
+    public void setSleepingFace(String sleepingFace) {
+        this.sleepingFace = sleepingFace;
     }
 
-    @Override
-    public void printInfo() {
-        // TODO Auto-generated method stub
-
+    public String getBody() {
+        return this.body;
     }
 
-    @Override
-    public boolean endGame() {
-        // TODO Auto-generated method stub
-        return false;
+    public void setBody(String body) {
+        this.body = body;
     }
 
 }
