@@ -2,7 +2,9 @@ package contents.game;
 
 import java.util.Scanner;
 
+import contents.resources.action.Action;
 import contents.resources.character.Bear;
+import contents.resources.loginsystem.User;
 
 public class PlayGame {
     private static Bear character;
@@ -12,25 +14,22 @@ public class PlayGame {
     public void play(Bear selectCharacter) {
         character = selectCharacter;
         while (flag) {
+            if (character.getHealth() <= 0) {
+                Action.ill(character);
+            }
             if (character.getSatiety() <= 0 && character.getHappiness() <= 0 && character.getHealth() <= 0
                     && character.getCleanliness() <= 0) {
-                System.out.println("============================");
-                System.out.println(character.getFace() + character.getBody());
-                System.out.println("============================");
-                System.out.println(character.getBearName() + "곰은 별나라로 떠나버렸어요..");
-                System.out.println("** Game over **");
+                character.printBear();
+                System.out.println("\t** Game over **");
+                System.out.println("** " + character.getBearName() + "곰은 행복을 찾아 곰나라로 떠나버렸어요.. **");
                 endGame();
-            }
-            if (character.getHealth() <= 0) {
-                ill(character);
+                break;
             }
 
-            System.out.println("============================");
-            System.out.println(character.getFace() + character.getBody());
-            System.out.println("============================");
-            System.out.println("1.밥먹이기 2.운동하기 3.목욕하기 4.잠자기 5.정보확인 6.종료");
+            character.printBear();
+            System.out.println("1.밥먹이기 2.운동하기 3.목욕하기 4.잠자기 5.정보확인 6.게임종료");
             System.out.print("입력 >> ");
-            String select = sc.nextLine();
+            String select = sc.next();
             switch (select) {
                 case "1":
                     if (character.getSatiety() < 100) {
@@ -64,62 +63,31 @@ public class PlayGame {
                     character.printInfo();
                     break;
                 case "6":
-                    endGame();
-                    break;
+                    System.out.print("정말 종료하시겠습니까? (y/n) : ");
+                    char yn = sc.next().charAt(0);
+                    if (yn == 'n') {
+                        break;
+                    }
+                    if (yn == 'y') {
+                        endGame();
+                        break;
+                    } else {
+                        System.out.println("잘못 입력하셨습니다.");
+                        break;
+                    }
                 default:
+                    System.out.println("잘못 입력하셨습니다.");
                     break;
             }
 
         }
     }
 
-    public void endGame() {
+    public boolean endGame() {
         System.out.println("꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°");
-        System.out.println("    🐻 My Happy Bear Game 을 종료합니다 🐻");
+        System.out.println("🐻 My Happy Bear Game 을 종료합니다 🐻");
         System.out.println("꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°");
-        flag = false;
+        return flag = false;
     }
 
-    public void ill(Bear bear) {
-        System.out.println("============================");
-        System.out.println(bear.getFace() + bear.getBody());
-        System.out.println("============================");
-        System.out.println(bear.bearName + "이 아파요.. 약을 사주시겠습니까?");
-        System.out.println("(1. 약 💊 사주기) (2. 무시하기)");
-        System.out.print("\n선택 : ");
-        String choice = sc.next();
-        System.out.println("\r\r");
-        int totalPoint = 3000; // 임시 부여함 나중에 수정하기
-        switch (choice) {
-            case "2":
-                System.out.println("============================\n" + " 무시하기 를 선택하셨습니다.\n" + bear.bearName
-                        + "이 아파서 울고 있습니다..\n" + "행복 -30, 허기 -30, 청결 -30" + "============================\n");
-                bear.happiness -= 30;
-                bear.satiety -= 30;
-                bear.cleanliness -= 30;
-                break;
-            case "1":
-                System.out.println("============================\n" + " 약 💊 사주기 를 선택하셨습니다.\n" + "가격은 [" + 2000
-                        + "] 포인트 입니다.\n" + "============================\n");
-                if (totalPoint < 2000) {
-                    System.out.println("구매 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
-                    break;
-                }
-                if (totalPoint >= 2000) {
-                    totalPoint -= 2000;
-                    System.out.println("============================");
-                    System.out.print(bear.getFace() + bear.getBody());
-                    System.out.println(
-                            " 💊 맛없어요.. 그래도 냠냠! \n============================\n건강 + 90 \n" + "잔여 포인트 : "
-                                    + totalPoint);
-                    bear.health += 90;
-                    break;
-                }
-                break;
-            default:
-                System.out.println("잘못 입력하셨습니다.");
-                break;
-        }
-
-    }
 }

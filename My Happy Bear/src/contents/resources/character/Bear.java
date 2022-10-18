@@ -5,17 +5,17 @@ import java.util.Scanner;
 
 public abstract class Bear {
     Scanner sc = new Scanner(System.in);
-    public String face = " ʕ•ᴥ•ʔ \n";
-    public String exercisingFace = " ʕ›ᴥ‹ʔ \n";
-    public String sleepingFace = " ʕᵕᴥᵕʔ zZ \n";
-    public String showerFace = "   🚿 \n" + " ʕᵔᴥᵔʔ \n";
-    public String body = "/|   |\\\n" + " O———O";
-    public String exercisingBody = "\\|   |/🏀 \n" + " O———O";
-    public String showerBody = "/|   |\\\n" + " O———O🧼";
+    public String face = "\t ʕ•ᴥ•ʔ \n";
+    public String exercisingFace = "\t ʕ›ᴥ‹ʔ \n";
+    public String sleepingFace = "\t ʕᵕᴥᵕʔ zZ \n";
+    public String showerFace = "\t   🚿 \n" + "\t ʕᵔᴥᵔʔ \n";
+    public String body = "\t/|   |\\\n" + "\t O———O";
+    public String exercisingBody = "\t\\|   |/🏀 \n" + "\t O———O";
+    public String showerBody = "\t/|   |\\\n" + "\t O———O🧼";
     public int happiness = 50;
     public int satiety = 50;
-    public int health = 70;
-    public int cleanliness = 70;
+    public int health = 50;
+    public int cleanliness = 50;
     public char gender;
     public String bearName;
     public LocalDate birthday;
@@ -183,6 +183,12 @@ public abstract class Bear {
 
     }
 
+    public void printBear() {
+        System.out.println("============================");
+        System.out.println(getFace() + getBody());
+        System.out.println("============================");
+    }
+    
     public void eat() {
         boolean flag = true;
         String foodMenu = "============================\n" +
@@ -194,8 +200,13 @@ public abstract class Bear {
         int totalPoint = 10000; // 임시 부여함 나중에 수정하기
 
         while (flag) {
-            if (getSatiety() >= 100) {
+            if (getSatiety() > 90) {
                 System.out.println("** " + getBearName() + "는 배가 불러서 더는 못먹어요! **");
+                flag = false;
+                break;
+            }
+            if (getHealth() <= 0) {
+                System.out.println("** " + getBearName() + "는 몸이 아파서 밥을 못먹어요!! **");
                 flag = false;
                 break;
             }
@@ -264,14 +275,15 @@ public abstract class Bear {
             }
             System.out.print("식사를 계속 하시겠습니까? (y/n) : ");
             char yn = sc.next().charAt(0);
+            if (yn == 'y')
+            	continue;
             if (yn == 'n') {
                 System.out.println("식사를 종료합니다...");
                 flag = false;
                 break;
             }
-            if (getSatiety() >= 100) {
-                System.out.println("** " + getBearName() + " 배가 불러서 더는 못먹어요! **");
-                flag = false;
+            else {
+                System.out.println("잘못 입력하셨습니다.");
                 break;
             }
         }
@@ -280,15 +292,20 @@ public abstract class Bear {
     public void exercise() {
         boolean flag = true;
         while (flag) {
+            if (getSatiety() < 30) {
+                System.out.println("** " + getBearName() + "곰은 배가 고파서 운동할 힘이 없어요! **");
+                flag = false;
+                break;
+            }
+            if (getHealth() > 95) {
+                System.out.println("** " + getBearName() + "곰은 이제 힘들어서 쉬어야겠어요! **");
+                flag = false;
+                break;
+            }
             System.out.println("운동을 시작할까요? (1. 운동 시작!! / 2. 운동 종료) : ");
             String choice = sc.next();
             switch (choice) {
                 case "1":
-                    if (getSatiety() <= 0) {
-                        System.out.println("** " + getBearName() + "는 배가 고파서 더는 운동 못해요! **");
-                        flag = false;
-                        break;
-                    }
                     System.out.println("============================");
                     System.out.println(getExercisingFace() + getExercisingBody() + "  하나 둘! 셋 넷!");
                     System.out.println("============================");
@@ -300,14 +317,15 @@ public abstract class Bear {
                 case "2":
                     System.out.print("운동을 계속 하시겠습니까? (y/n) : ");
                     char yn = sc.next().charAt(0);
+                    if (yn == 'y')
+                    	continue;
                     if (yn == 'n') {
                         System.out.println("운동을 종료합니다...");
                         flag = false;
                         break;
                     }
-                    if (getSatiety() <= 0) {
-                        System.out.println("** " + getBearName() + "는 배가 고파서 더는 운동 못해요! **");
-                        flag = false;
+                    else {
+                        System.out.println("잘못 입력하셨습니다.");
                         break;
                     }
                 default:
@@ -319,6 +337,8 @@ public abstract class Bear {
     }
 
     public void shower() {
+        boolean flag = true;
+        while (flag) {
         System.out.println("목욕을 시작할까요? (1. 목욕 시작 / 2. 목욕 종료)");
         String choice = sc.next();
         switch (choice) {
@@ -329,31 +349,40 @@ public abstract class Bear {
                 System.out.println("청결 +100, 행복 +10");
                 cleanliness += 100;
                 happiness += 10;
+                flag = false;
                 break;
             case "2":
                 System.out.print("목욕을 계속 하시겠습니까? (y/n) : ");
                 char yn = sc.next().charAt(0);
+                if (yn == 'y')
+                	continue;
                 if (yn == 'n') {
                     System.out.println("목욕을 종료합니다...");
+                    flag = false;
+                    break;
+                }
+                else {
+                    System.out.println("잘못 입력하셨습니다.");
                     break;
                 }
             default:
                 System.out.println("잘못 입력하셨습니다.");
+        }
         }
     }
 
     public void sleep() {
         boolean flag = true;
         while (flag) {
-            System.out.println("낮잠을 잘까요? (1. 낮잠 자기 / 2. 낮잠 취소)");
+            if (getSatiety() <= 0) {
+                System.out.println("** " + getBearName() + "곰은 배가 고파서 잠이 오지 않아요! **");
+                flag = false;
+                break;
+            }
+            System.out.println("낮잠을 잘까요? (1. 낮잠 자기 / 2. 낮잠 종료)");
             String choice = sc.next();
             switch (choice) {
                 case "1":
-                    if (getSatiety() <= 0) {
-                        System.out.println("** " + getBearName() + "는 배가 고파서 잠이 오지 않아요! **");
-                        flag = false;
-                        break;
-                    }
                     System.out.println("============================");
                     System.out.println(getSleepingFace() + getBody() + " 쿨 ~ ");
                     System.out.println("============================");
@@ -365,32 +394,21 @@ public abstract class Bear {
                 case "2":
                     System.out.print("낮잠을 계속 자겠습니까? (y/n) : ");
                     char yn = sc.next().charAt(0);
+                    if (yn == 'y')
+                    	continue;
                     if (yn == 'n') {
                         System.out.println("낮잠을 종료합니다...");
                         flag = false;
                         break;
                     }
-                    if (getSatiety() <= 0) {
-                        System.out.println("** " + getBearName() + "는 배가 고파서 잠이 오지 않아요! **");
-                        flag = false;
+                    else {
+                        System.out.println("잘못 입력하셨습니다.");
                         break;
                     }
                 default:
                     System.out.println("잘못 입력하셨습니다.");
             }
         }
-    }
-
-    public void clean() {
-
-    }
-
-    public void cure() {
-
-    }
-
-    public boolean endGame() {
-        return false;
     }
 
 }

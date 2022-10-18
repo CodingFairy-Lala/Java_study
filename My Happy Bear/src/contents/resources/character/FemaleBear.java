@@ -5,10 +5,10 @@ import java.util.Scanner;
 public class FemaleBear extends Bear {
     Scanner sc = new Scanner(System.in);
     public char gender = 'F';
-    public String face = "  🎀  \n" + " ʕ•ᴥ•ʔ \n";
-    public String exercisingFace = "  🎀  \n" + " ʕ›ᴥ‹ʔ \n";
-    public String sleepingFace = "  🎀  \n" + " ʕᵕᴥᵕʔ zZ \n";
-    public String body = "/|   |\\\n" + " O———O";
+    public String face = "\t  🎀  \n" + "\t ʕ•ᴥ•ʔ \n";
+    public String exercisingFace = "\t  🎀  \n" + "\t ʕ›ᴥ‹ʔ \n";
+    public String sleepingFace = "\t  🎀  \n" + "\t ʕᵕᴥᵕʔ💤zZ \n";
+    public String body = "\t/|   |\\\n" + "\t O———O";
 
     public FemaleBear() {
         super();
@@ -24,16 +24,19 @@ public class FemaleBear extends Bear {
 
     public String getFace() {
         if (getHappiness() <= 20) {
-            this.face = "  🎀  \n" + " ʕ◞ᴥ◟ʔ \n";
+            this.face = "\t  🎀  \n" + "\t ʕ◞ᴥ◟ʔ 힝..\n";
         }
         if (getHappiness() >= 80) {
-            this.face = "  🎀  \n" + " ʕ›·̫‹ʔ 💕 \n";
+            this.face = "\t  🎀  \n" + "\t ʕ›ᴥ‹ʔ 해피💕 \n";
         }
-        if (getSatiety() <= 10) {
-            this.face = "  🎀  \n" + " ʕ-ᴥ-ʔ  꼬르륵..\n";
+        if (getCleanliness() <= 10) {
+        	this.face = "\t  🎀  \n" + "\t ʕ◞ᴥ◟ʔ 💨 나 냄시나.. \n";
+        }
+        if (getSatiety() < 15) {
+        	this.face = "\t  🎀  \n" + "\t ʕ-ᴥ-ʔ  꼬르륵.. \n";
         }
         if (getHealth() <= 0) {
-            this.face = "  🎀  \n" + " ʕ×ᴥ×ʔ \n";
+            this.face = "\t  🎀  \n" + "\t ʕ×ᴥ×ʔ💧 많이 아파용.. \n";
         }
         return this.face;
     }
