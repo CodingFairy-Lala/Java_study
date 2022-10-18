@@ -1,10 +1,14 @@
 package contents.resources.character;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public abstract class Bear {
-    Scanner sc = new Scanner(System.in);
+public abstract class Bear implements Serializable {
+
+    private static final long serialVersionUID = 1L; // serialVersionUID 값 지정
+
+    transient Scanner sc = new Scanner(System.in);
     public String face = "\t ʕ•ᴥ•ʔ \n";
     public String exercisingFace = "\t ʕ›ᴥ‹ʔ \n";
     public String sleepingFace = "\t ʕᵕᴥᵕʔ zZ \n";
@@ -16,8 +20,10 @@ public abstract class Bear {
     public int satiety = 50;
     public int health = 50;
     public int cleanliness = 50;
+    public int point = 1000;
     public char gender;
     public String bearName;
+    public String owner;
     public LocalDate birthday;
     String o = "□", x = "■"; // 상태 수치를 문자로 표시.
 
@@ -117,6 +123,14 @@ public abstract class Bear {
         this.cleanliness = cleanliness;
     }
 
+    public int getPoint() {
+        return this.point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
     public char getGender() {
         return this.gender;
     }
@@ -141,12 +155,22 @@ public abstract class Bear {
         this.birthday = birthday;
     }
 
+    public String getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public void printInfo() {
         System.out.println("============================");
         System.out.println("곰돌이 이름 : " + getBearName());
-        // System.out.println("집사 이름 : " + );
+        System.out.println("집사 이름 : " + getOwner());
         System.out.println("성별 : " + getGender());
         System.out.println("생일 : " + getBirthday());
+        System.out.println("소지 포인트 : " + getPoint());
+
         System.out.print("행복 : ");
         for (int i = 1; i <= 10; i++) {
             if (this.happiness / 10 >= i) {
@@ -188,8 +212,9 @@ public abstract class Bear {
         System.out.println(getFace() + getBody());
         System.out.println("============================");
     }
-    
+
     public void eat() {
+        Scanner sc = new Scanner(System.in);
         boolean flag = true;
         String foodMenu = "============================\n" +
                 "음식을 선택해주세요 :\n" +
@@ -197,7 +222,6 @@ public abstract class Bear {
                 "2. 🥕 : 포만감 +20, 건강 +20 / 800 포인트\n" +
                 "3. 🍭 : 포만감 +15, 건강 -20 / 500 포인트\n" +
                 "선택 : ";
-        int totalPoint = 10000; // 임시 부여함 나중에 수정하기
 
         while (flag) {
             if (getSatiety() > 90) {
@@ -217,16 +241,16 @@ public abstract class Bear {
                 case "1":
                     System.out.println(
                             "============================\n" + " 🍗 을 선택하셨습니다.\n" + "가격은 [" + 1500 + "] 포인트 입니다.");
-                    if (totalPoint < 1500) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
+                    if (getPoint() < 1500) {
+                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + getPoint());
                         break;
                     }
-                    if (totalPoint >= 1500) {
-                        totalPoint -= 1500;
+                    if (getPoint() >= 1500) {
+                        setPoint(getPoint() - 1500);
                         System.out.println("============================");
                         System.out.print(getFace() + getBody());
                         System.out.println(" 🍗 냠냠! \n============================\n포만감 +40, 행복도 +10 \n" + "잔여 포인트 : "
-                                + totalPoint);
+                                + getPoint());
                         satiety += 40;
                         happiness += 10;
                         break;
@@ -235,17 +259,17 @@ public abstract class Bear {
                 case "2":
                     System.out.println("============================\n" + " 🥕 을 선택하셨습니다.\n" + "가격은 [" + 800
                             + "] 포인트 입니다.\n" + "============================\n");
-                    if (totalPoint < 800) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
+                    if (getPoint() < 800) {
+                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + getPoint());
                         break;
                     }
-                    if (totalPoint >= 800) {
-                        totalPoint -= 800;
+                    if (getPoint() >= 800) {
+                        setPoint(getPoint() - 800);
                         System.out.println("============================");
                         System.out.print(getFace() + getBody());
                         System.out.println(
                                 " 🥕 냠냠! \n============================\n포만감 +20, 건강 +20 \n" + "잔여 포인트 : "
-                                        + totalPoint);
+                                        + getPoint());
                         satiety += 20;
                         health += 20;
                         break;
@@ -254,17 +278,17 @@ public abstract class Bear {
                 case "3":
                     System.out.println("============================\n" + " 🍭 을 선택하셨습니다.\n" + "가격은 [" + 500
                             + "] 포인트 입니다.\n" + "============================\n");
-                    if (totalPoint < 500) {
-                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + totalPoint);
+                    if (getPoint() < 500) {
+                        System.out.println("식사 실패!! \n" + "포인트가 부족합니다. 잔여 포인트 : " + getPoint());
                         break;
                     }
-                    if (totalPoint >= 500) {
-                        totalPoint -= 500;
+                    if (getPoint() >= 500) {
+                        setPoint(getPoint() - 500);
                         System.out.println("============================");
                         System.out.print(getFace() + getBody());
                         System.out.println(
                                 " 🍭 냠냠! \n============================\n포만감 +15, 건강 -20 \n" + "잔여 포인트 : "
-                                        + totalPoint);
+                                        + getPoint());
                         satiety += 15;
                         health -= 20;
                         break;
@@ -276,13 +300,12 @@ public abstract class Bear {
             System.out.print("식사를 계속 하시겠습니까? (y/n) : ");
             char yn = sc.next().charAt(0);
             if (yn == 'y')
-            	continue;
+                continue;
             if (yn == 'n') {
                 System.out.println("식사를 종료합니다...");
                 flag = false;
                 break;
-            }
-            else {
+            } else {
                 System.out.println("잘못 입력하셨습니다.");
                 break;
             }
@@ -290,6 +313,7 @@ public abstract class Bear {
     }
 
     public void exercise() {
+        Scanner sc = new Scanner(System.in);
         boolean flag = true;
         while (flag) {
             if (getSatiety() < 30) {
@@ -318,13 +342,12 @@ public abstract class Bear {
                     System.out.print("운동을 계속 하시겠습니까? (y/n) : ");
                     char yn = sc.next().charAt(0);
                     if (yn == 'y')
-                    	continue;
+                        continue;
                     if (yn == 'n') {
                         System.out.println("운동을 종료합니다...");
                         flag = false;
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("잘못 입력하셨습니다.");
                         break;
                     }
@@ -337,41 +360,42 @@ public abstract class Bear {
     }
 
     public void shower() {
+        Scanner sc = new Scanner(System.in);
         boolean flag = true;
         while (flag) {
-        System.out.println("목욕을 시작할까요? (1. 목욕 시작 / 2. 목욕 종료)");
-        String choice = sc.next();
-        switch (choice) {
-            case "1":
-                System.out.println("============================");
-                System.out.println(getShowerFace() + getShowerBody() + " 시원하당~");
-                System.out.println("============================");
-                System.out.println("청결 +100, 행복 +10");
-                cleanliness += 100;
-                happiness += 10;
-                flag = false;
-                break;
-            case "2":
-                System.out.print("목욕을 계속 하시겠습니까? (y/n) : ");
-                char yn = sc.next().charAt(0);
-                if (yn == 'y')
-                	continue;
-                if (yn == 'n') {
-                    System.out.println("목욕을 종료합니다...");
+            System.out.println("목욕을 시작할까요? (1. 목욕 시작 / 2. 목욕 종료)");
+            String choice = sc.next();
+            switch (choice) {
+                case "1":
+                    System.out.println("============================");
+                    System.out.println(getShowerFace() + getShowerBody() + " 시원하당~");
+                    System.out.println("============================");
+                    System.out.println("청결 +100, 행복 +10");
+                    cleanliness += 100;
+                    happiness += 10;
                     flag = false;
                     break;
-                }
-                else {
+                case "2":
+                    System.out.print("목욕을 계속 하시겠습니까? (y/n) : ");
+                    char yn = sc.next().charAt(0);
+                    if (yn == 'y')
+                        continue;
+                    if (yn == 'n') {
+                        System.out.println("목욕을 종료합니다...");
+                        flag = false;
+                        break;
+                    } else {
+                        System.out.println("잘못 입력하셨습니다.");
+                        break;
+                    }
+                default:
                     System.out.println("잘못 입력하셨습니다.");
-                    break;
-                }
-            default:
-                System.out.println("잘못 입력하셨습니다.");
-        }
+            }
         }
     }
 
     public void sleep() {
+        Scanner sc = new Scanner(System.in);
         boolean flag = true;
         while (flag) {
             if (getSatiety() <= 0) {
@@ -395,13 +419,12 @@ public abstract class Bear {
                     System.out.print("낮잠을 계속 자겠습니까? (y/n) : ");
                     char yn = sc.next().charAt(0);
                     if (yn == 'y')
-                    	continue;
+                        continue;
                     if (yn == 'n') {
                         System.out.println("낮잠을 종료합니다...");
                         flag = false;
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("잘못 입력하셨습니다.");
                         break;
                     }

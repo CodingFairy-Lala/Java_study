@@ -2,9 +2,9 @@ package contents.game;
 
 import java.util.Scanner;
 
+import contents.bank.BearMoney;
 import contents.resources.action.Action;
 import contents.resources.character.Bear;
-import contents.resources.loginsystem.User;
 
 public class PlayGame {
     private static Bear character;
@@ -22,12 +22,13 @@ public class PlayGame {
                 character.printBear();
                 System.out.println("\t** Game over **");
                 System.out.println("** " + character.getBearName() + "곰은 행복을 찾아 곰나라로 떠나버렸어요.. **");
+                StartGame.deleteBear(character);
                 endGame();
                 break;
             }
 
             character.printBear();
-            System.out.println("1.밥먹이기 2.운동하기 3.목욕하기 4.잠자기 5.정보확인 6.게임종료");
+            System.out.println("1.밥먹이기 2.운동하기 3.목욕하기 4.잠자기 5.정보확인 6.포인트샵 7.게임종료");
             System.out.print("입력 >> ");
             String select = sc.next();
             switch (select) {
@@ -63,12 +64,25 @@ public class PlayGame {
                     character.printInfo();
                     break;
                 case "6":
-                    System.out.print("정말 종료하시겠습니까? (y/n) : ");
+                    System.out.print("포인트샵으로 이동할까요? (y/n) : ");
                     char yn = sc.next().charAt(0);
                     if (yn == 'n') {
                         break;
                     }
                     if (yn == 'y') {
+                        BearMoney.chargeMoney(character);
+                        break;
+                    } else {
+                        System.out.println("잘못 입력하셨습니다.");
+                        break;
+                    }
+                case "7":
+                    System.out.print("정말 종료하시겠습니까? (y/n) : ");
+                    char answer = sc.next().charAt(0);
+                    if (answer == 'n') {
+                        break;
+                    }
+                    if (answer == 'y') {
                         endGame();
                         break;
                     } else {
@@ -84,9 +98,11 @@ public class PlayGame {
     }
 
     public boolean endGame() {
+        System.out.println();
         System.out.println("꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°");
         System.out.println("🐻 My Happy Bear Game 을 종료합니다 🐻");
         System.out.println("꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°⌖꙳✧˖°");
+        System.out.println();
         return flag = false;
     }
 

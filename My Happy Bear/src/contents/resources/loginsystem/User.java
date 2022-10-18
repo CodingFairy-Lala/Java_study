@@ -1,6 +1,9 @@
 package contents.resources.loginsystem;
 
 import java.io.Serializable;
+import java.util.Objects;
+
+import contents.resources.character.Bear;
 
 public class User implements Serializable {
 
@@ -9,6 +12,8 @@ public class User implements Serializable {
 	private String id;
 	private String password;
 	private String nickname;
+	public boolean bearOwner;
+	private Bear myBear;
 
 	public User() {
 	}
@@ -43,13 +48,47 @@ public class User implements Serializable {
 		this.nickname = nickname;
 	}
 
+	public boolean getBearOwner() {
+		return this.bearOwner;
+	}
+
+	public void setMyBear(Bear myBear) {
+		this.myBear = myBear;
+	}
+
+	public Bear getMyBear() {
+		return this.myBear;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof User)) {
+			return false;
+		}
+		User user = (User) o;
+		return Objects.equals(id, user.id) && Objects.equals(password, user.password)
+				&& Objects.equals(nickname, user.nickname) && bearOwner == user.bearOwner;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, password, nickname, bearOwner);
+	}
+
 	@Override
 	public String toString() {
 		return "{" +
-				" id='" + getId() + "'" +
-				", password='" + getPassword() + "'" +
-				", nickname='" + getNickname() + "'" +
+				" id='" + this.getId() + "'" +
+				", password='" + this.getPassword() + "'" +
+				", nickname='" + this.getNickname() + "'" +
+				", bearOwner='" + this.getBearOwner() + "'" +
 				"}";
+	}
+
+	public boolean isBearOwner(boolean b) {
+		return this.bearOwner = b;
 	}
 
 }

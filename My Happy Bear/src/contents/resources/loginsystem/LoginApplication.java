@@ -15,13 +15,13 @@ public class LoginApplication {
 
 	private static int usernum = 0;
 	private static User user[] = new User[20];
-	private static Scanner scanner = new Scanner(System.in);
 	private static String inputId, inputPassword, inputNickname;
 	private static String inputNewPassword;
 	public static File userFile = new File("bearUsers.ser");
 
 	public static void main(String[] args) {
 
+		Scanner scanner = new Scanner(System.in);
 		boolean run = true;
 
 		do {
@@ -94,6 +94,7 @@ public class LoginApplication {
 	}
 
 	private static void createAccount() { // 회원가입 선택
+		Scanner scanner = new Scanner(System.in);
 		System.out.println(" ");
 		System.out.print("아이디를 입력하세요🐻 : ");
 		inputId = scanner.next();
@@ -125,6 +126,7 @@ public class LoginApplication {
 	}
 
 	private static void loginAccount() { // 로그인 선택
+		Scanner scanner = new Scanner(System.in);
 		System.out.println(" ");
 		System.out.print("아이디를 입력하세요🐻 : ");
 		inputId = scanner.next();
@@ -136,7 +138,7 @@ public class LoginApplication {
 			Object obj = ois.readObject();
 			User[] users = (User[]) obj;
 			for (User user : users) {
-				if (user.getId() == null) {
+				if (user == null || user.getId() == null || user.getPassword() == null || user.getNickname() == null) {
 					break;
 				}
 				if (inputId.equals(user.getId()) && inputPassword.equals(user.getPassword())) {
@@ -147,7 +149,7 @@ public class LoginApplication {
 					System.out.println(user.getNickname() + "님, 어서오세요 ! ");
 					System.out.println();
 					loginSuccess = 1;
-					StartGame.startGame(); // 게임 시작
+					StartGame.startGame(inputId, inputPassword); // 게임 시작
 					break;
 				}
 			}
@@ -177,6 +179,7 @@ public class LoginApplication {
 	}
 
 	private static void deleteAccount() { // 비밀번호변경 선택
+		Scanner scanner = new Scanner(System.in);
 		System.out.println(" ");
 		System.out.print("아이디를 입력하세요🐻 : ");
 		inputId = scanner.next();

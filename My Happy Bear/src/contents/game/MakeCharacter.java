@@ -8,7 +8,7 @@ import contents.resources.character.FemaleBear;
 import contents.resources.character.MaleBear;
 
 public class MakeCharacter {
-    Scanner sc = new Scanner(System.in);
+    transient Scanner sc = new Scanner(System.in);
 
     public Bear selectCharacter() {
 
